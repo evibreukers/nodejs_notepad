@@ -1,0 +1,69 @@
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/header.ejs') %> <%-
+    include('./partials/rightclick.ejs') %>
+    <div class="main-container">
+      <%- include('./partials/nav.ejs') %>
+      <a href="/">home</a>
+      <h2><%= folder.title %></h2>
+
+      <form
+        action="/folder/:id"
+        method="POST"
+        data-folderid="<%= folder._id %>"
+      >
+        <input
+          type="text"
+          id="folderID"
+          name="folderID"
+          value="<%= folder._id %>"
+          required
+          style="display: none;"
+        />
+        <input type="text" id="title" name="title" required />
+        <input type="text" id="body" name="body" required />
+
+        <button>Add</button>
+      </form>
+
+      <% folder.notes.forEach((note)=>{%>
+      <div class="note_box">
+        <div class="delete_note_btn" data-noteid="<%= note.id %>">X</div>
+        <div class="edit_note_btn" data-noteid="<%= note.id %>">edit</div>
+        <p class="note_title open"><%= note.title %></p>
+        <p class="note_body"><%= note.body %></p>
+      </div>
+      <% }) %>
+    </div>
+    <%- include('./partials/footer.ejs') %>
+    <script>
+      const folderID = document.querySelector("form").dataset.folderid;
+      document.querySelectorAll(".delete_note_btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const noteID = button.dataset.noteid;
+          console.log(noteID);
+          const endpoint = `/folder/${folderID}/${noteID}`;
+          fetch(endpoint, { method: "PUT" })
+            .then((response) => response.json())
+            .then((data) => (window.location.href = data.redirect))
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      });
+
+      document.querySelectorAll(".note_title").forEach((title) => {
+        title.addEventListener("click", () => {
+          if (title.classList.contains("open")) {
+            document.querySelector(".note_body").style.display = "none";
+            title.classList.remove("open");
+          } else {
+            document.querySelector(".note_body").style.display = "block";
+            title.classList.add("open");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

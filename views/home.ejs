@@ -1,0 +1,31 @@
+<html lang="en">
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <%- include('./partials/header.ejs') %> <%-
+    include('./partials/rightclick.ejs') %>
+    <div class="main-container">
+      <%- include('./partials/nav.ejs') %>
+      <div class="board-container">
+        <h1>ADD A NEW FOLDER</h1>
+        <form action="/" method="POST">
+          <input type="text" id="title" name="title" required />
+          <button>Add</button>
+        </form>
+
+        <div class="folder-container">
+          <% if(folders.length > 0) { folders.forEach((folder)=>{ %>
+          <div class="folder-box">
+            <div class="folder-square" data-idcode="<%= folder._id %>">
+              <i class="fas fa-anchor"></i>
+            </div>
+            <%= folder.title %>
+          </div>
+          <%}) } else { %>
+          <p>You do not have any folders</p>
+          <%} %>
+        </div>
+      </div>
+    </div>
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>
