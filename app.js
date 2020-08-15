@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
 
 // connect to mongoDB
 const dbURI =
-  "mongodb+srv://evimaria:evimaria@cluster0.bu3po.mongodb.net/notes?retryWrites=true&w=majority";
+  "secret"
 mongoose
   // connect mongoose to mongoDB
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
